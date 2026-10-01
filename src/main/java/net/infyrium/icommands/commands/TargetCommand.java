@@ -26,9 +26,14 @@ public abstract class TargetCommand implements CommandExecutor {
     }
 
     /**
-     * Applies the command to the target and returns the message for the target.
+     * Messages after the command: one for the target, one for the sender if it is someone else.
      */
-    protected abstract String execute(Player target);
+    protected record Result(String targetMessage, String senderMessage) {}
+
+    /**
+     * Applies the command to the target and returns the messages to send.
+     */
+    protected abstract Result execute(Player target);
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -57,10 +62,10 @@ public abstract class TargetCommand implements CommandExecutor {
             }
         }
 
-        String message = execute(target);
-        target.sendMessage(message);
+        Result result = execute(target);
+        target.sendMessage(result.targetMessage());
         if (target != sender) {
-            sender.sendMessage(target.getName() + ": " + message);
+            sender.sendMessage(result.senderMessage());
         }
         return true;
     }

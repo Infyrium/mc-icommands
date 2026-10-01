@@ -11,12 +11,13 @@ public class FlyCommand extends TargetCommand {
     }
 
     @Override
-    protected String execute(Player target) {
+    protected Result execute(Player target) {
         boolean enabled = !target.getAllowFlight();
         target.setAllowFlight(enabled);
         if (!enabled) {
             target.setFlying(false);
         }
-        return "Flight " + (enabled ? "enabled" : "disabled") + "!";
+        String state = enabled ? "enabled" : "disabled";
+        return new Result("Flight " + state + "!", "Flight " + state + " for " + target.getName() + "!");
     }
 }

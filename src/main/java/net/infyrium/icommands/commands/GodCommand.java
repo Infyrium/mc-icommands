@@ -11,9 +11,10 @@ public class GodCommand extends TargetCommand {
     }
 
     @Override
-    protected String execute(Player target) {
+    protected Result execute(Player target) {
         boolean enabled = !target.isInvulnerable();
         target.setInvulnerable(enabled);
-        return "God mode " + (enabled ? "enabled" : "disabled") + "!";
+        String state = enabled ? "enabled" : "disabled";
+        return new Result("God mode " + state + "!", "God mode " + state + " for " + target.getName() + "!");
     }
 }

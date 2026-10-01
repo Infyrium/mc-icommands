@@ -12,11 +12,11 @@ public class HealCommand extends TargetCommand {
     }
 
     @Override
-    protected String execute(Player target) {
+    protected Result execute(Player target) {
         target.setHealth(target.getAttribute(Attribute.MAX_HEALTH).getValue());
         target.setFoodLevel(20);
         target.setSaturation(20f);
         target.setFireTicks(0);
-        return "You have been healed!";
+        return new Result("You have been healed!", target.getName() + " has been healed!");
     }
 }
