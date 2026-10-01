@@ -1,0 +1,8 @@
+settings:
+  requirePermission:
+    feed: true # Permission: icommands.feed
+    heal: true # Permission: icommands.heal
+    fly: true # Permission: icommands.fly
+    speed: true # Permission: icommands.speed
+    god: true # Permission: icommands.god
+    ext: true # Permission: icommands.ext

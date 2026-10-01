@@ -1,0 +1,62 @@
+name: ${project.name}
+version: ${project.version}
+main: ${groupId}.${artifactId}
+api-version: '1.21'
+authors: [euj3ne]
+description: ${project.description}
+website: ${project.url}
+depend: []
+softdepend: []
+commands:
+  feed:
+    description: Restore hunger
+    usage: /feed [player]
+  heal:
+    description: Restore health
+    usage: /heal [player]
+  fly:
+    description: Toggle flight
+    usage: /fly [player]
+  speed:
+    description: Set fly or walk speed
+    usage: /speed [fly|walk] <0-10>
+  god:
+    description: Toggle god mode
+    usage: /god [player]
+  ext:
+    description: Extinguish fire
+    usage: /ext [player]
+permissions:
+  icommands.feed:
+    description: Allows using /feed
+    default: op
+  icommands.feed.others:
+    description: Allows using /feed on other players
+    default: op
+  icommands.heal:
+    description: Allows using /heal
+    default: op
+  icommands.heal.others:
+    description: Allows using /heal on other players
+    default: op
+  icommands.fly:
+    description: Allows using /fly
+    default: op
+  icommands.fly.others:
+    description: Allows using /fly on other players
+    default: op
+  icommands.speed:
+    description: Allows using /speed
+    default: op
+  icommands.god:
+    description: Allows using /god
+    default: op
+  icommands.god.others:
+    description: Allows using /god on other players
+    default: op
+  icommands.ext:
+    description: Allows using /ext
+    default: op
+  icommands.ext.others:
+    description: Allows using /ext on other players
+    default: op
