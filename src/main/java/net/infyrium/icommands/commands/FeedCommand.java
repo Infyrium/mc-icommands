@@ -13,7 +13,7 @@ public class FeedCommand extends TargetCommand {
     @Override
     protected Result execute(Player target) {
         target.setFoodLevel(20);
-        target.setSaturation(20f);
+        target.setSaturation(10f);
         target.setExhaustion(0f);
         return new Result("Your hunger has been restored!", target.getName() + "'s hunger has been restored!");
     }

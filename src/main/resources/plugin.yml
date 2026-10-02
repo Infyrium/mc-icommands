@@ -19,7 +19,7 @@ commands:
     usage: /fly [player]
   speed:
     description: Set fly or walk speed
-    usage: /speed [fly|walk] <0-10>
+    usage: /speed [fly|walk] <0-10> [player]
   god:
     description: Toggle god mode
     usage: /god [player]
@@ -48,11 +48,17 @@ permissions:
   icommands.speed:
     description: Allows using /speed
     default: op
+  icommands.speed.others:
+    description: Allows using /speed on other players
+    default: op
   icommands.god:
     description: Allows using /god
     default: op
   icommands.god.others:
     description: Allows using /god on other players
+    default: op
+  icommands.god.pvp:
+    description: Allows hurting other players while in god mode
     default: op
   icommands.ext:
     description: Allows using /ext

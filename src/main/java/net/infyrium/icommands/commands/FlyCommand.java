@@ -13,6 +13,7 @@ public class FlyCommand extends TargetCommand {
     @Override
     protected Result execute(Player target) {
         boolean enabled = !target.getAllowFlight();
+        target.setFallDistance(0f);
         target.setAllowFlight(enabled);
         if (!enabled) {
             target.setFlying(false);
