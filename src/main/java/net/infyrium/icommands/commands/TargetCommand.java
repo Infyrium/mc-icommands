@@ -56,7 +56,8 @@ public abstract class TargetCommand implements CommandExecutor {
                 return true;
             }
             target = Bukkit.getPlayerExact(args[0]);
-            if (target == null) {
+            // Players hidden from the sender (e.g. vanished) look offline
+            if (target == null || (sender instanceof Player player && !player.canSee(target))) {
                 sender.sendMessage("Player '" + args[0] + "' is not online.");
                 return true;
             }

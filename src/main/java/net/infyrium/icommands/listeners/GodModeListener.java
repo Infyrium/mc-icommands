@@ -1,4 +1,4 @@
-package net.infyrium.icommands;
+package net.infyrium.icommands.listeners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -9,6 +9,8 @@ import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+
+import net.infyrium.icommands.iCommandsMain;
 
 public class GodModeListener implements Listener {
 

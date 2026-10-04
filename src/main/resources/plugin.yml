@@ -26,6 +26,13 @@ commands:
   ext:
     description: Extinguish fire
     usage: /ext [player]
+  vanish:
+    description: Toggle vanish
+    usage: /vanish [player]
+    aliases: [v]
+  nick:
+    description: Change nickname
+    usage: /nick [player] <nickname|off>
 permissions:
   icommands.feed:
     description: Allows using /feed
@@ -65,4 +72,28 @@ permissions:
     default: op
   icommands.ext.others:
     description: Allows using /ext on other players
+    default: op
+  icommands.vanish:
+    description: Allows using /vanish
+    default: op
+  icommands.vanish.others:
+    description: Allows using /vanish on other players
+    default: op
+  icommands.vanish.see:
+    description: Allows seeing vanished players
+    default: op
+  icommands.vanish.pvp:
+    description: Allows hurting other players while vanished
+    default: op
+  icommands.vanish.pickup:
+    description: Allows picking up items while vanished
+    default: op
+  icommands.nick:
+    description: Allows using /nick
+    default: op
+  icommands.nick.others:
+    description: Allows using /nick on other players
+    default: op
+  icommands.nick.color:
+    description: Allows using color codes in nicknames
     default: op

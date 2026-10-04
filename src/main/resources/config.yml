@@ -1,8 +1,10 @@
 settings:
   requirePermission:
-    feed: true # Permission: icommands.feed
-    heal: true # Permission: icommands.heal
-    fly: true # Permission: icommands.fly
-    speed: true # Permission: icommands.speed
-    god: true # Permission: icommands.god
-    ext: true # Permission: icommands.ext
+    feed: true # Permissions: icommands.feed, icommands.feed.others
+    heal: true # Permissions: icommands.heal, icommands.heal.others
+    fly: true # Permissions: icommands.fly, icommands.fly.others
+    speed: true # Permissions: icommands.speed, icommands.speed.others
+    god: true # Permissions: icommands.god, icommands.god.others, icommands.god.pvp
+    ext: true # Permissions: icommands.ext, icommands.ext.others
+    vanish: true # Permissions: icommands.vanish, icommands.vanish.others, icommands.vanish.see, icommands.vanish.pvp, icommands.vanish.pickup
+    nick: true # Permissions: icommands.nick, icommands.nick.others, icommands.nick.color

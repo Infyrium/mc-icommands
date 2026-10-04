@@ -68,7 +68,7 @@ public class SpeedCommand implements TabExecutor {
                 return true;
             }
             Player target = Bukkit.getPlayerExact(args[2]);
-            if (target == null) {
+            if (target == null || (sender instanceof Player player && !player.canSee(target))) {
                 sender.sendMessage("Player '" + args[2] + "' is not online.");
                 return true;
             }
@@ -100,7 +100,9 @@ public class SpeedCommand implements TabExecutor {
             return filter(SPEEDS, args[1]);
         }
         if (args.length == 3 && sender.hasPermission("icommands.speed.others")) {
-            return filter(Bukkit.getOnlinePlayers().stream().map(Player::getName).toList(), args[2]);
+            return filter(Bukkit.getOnlinePlayers().stream()
+                    .filter(online -> !(sender instanceof Player player) || player.canSee(online))
+                    .map(Player::getName).toList(), args[2]);
         }
         return List.of();
     }
