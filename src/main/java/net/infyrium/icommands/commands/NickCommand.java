@@ -10,6 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.infyrium.icommands.iCommandsMain;
+import net.infyrium.icommands.managers.Messages;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 
 public class NickCommand implements CommandExecutor {
 
@@ -27,40 +29,41 @@ public class NickCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        Messages messages = plugin.getMessages();
         Player target;
         String nick;
 
         if (args.length == 1) {
             if (!(sender instanceof Player player)) {
-                sender.sendMessage("Usage: /" + label + " <player> <nickname|off>");
+                messages.send(sender, "nick-usage-console", Placeholder.unparsed("command", label));
                 return true;
             }
             if (plugin.getConfig().getBoolean("settings.requirePermission.nick", true)
                     && !sender.hasPermission("icommands.nick")) {
-                sender.sendMessage("You don't have permission to use this command.");
+                messages.send(sender, "no-permission");
                 return true;
             }
             target = player;
             nick = args[0];
         } else if (args.length == 2) {
             if (!sender.hasPermission("icommands.nick.others")) {
-                sender.sendMessage("You don't have permission to use this command on other players.");
+                messages.send(sender, "no-permission-others");
                 return true;
             }
             target = Bukkit.getPlayerExact(args[0]);
             if (target == null || (sender instanceof Player player && !player.canSee(target))) {
-                sender.sendMessage("Player '" + args[0] + "' is not online.");
+                messages.send(sender, "player-not-online", Placeholder.unparsed("player", args[0]));
                 return true;
             }
             nick = args[1];
         } else {
-            sender.sendMessage("Usage: /" + label + " [player] <nickname|off>");
+            messages.send(sender, "nick-usage", Placeholder.unparsed("command", label));
             return true;
         }
 
         if (nick.equalsIgnoreCase("off")) {
             plugin.setNick(target, null);
-            target.sendMessage("You no longer have a nickname.");
+            messages.send(target, "nick-removed");
         } else {
             if (!sender.hasPermission("icommands.nick.color")) {
                 nick = stripColors(nick);
@@ -68,31 +71,32 @@ public class NickCommand implements CommandExecutor {
 
             String error = validate(target, nick);
             if (error != null) {
-                sender.sendMessage(error);
+                messages.send(sender, error);
                 return true;
             }
 
             plugin.setNick(target, nick);
-            target.sendMessage("Your nickname is now " + stripColors(nick) + ".");
+            messages.send(target, "nick-set", Placeholder.unparsed("nick", stripColors(nick)));
         }
 
         if (target != sender) {
-            sender.sendMessage("Nickname changed.");
+            messages.send(sender, "nick-changed");
         }
         return true;
     }
 
+    // Returns the message key of the error, or null if the nickname is fine
     private String validate(Player target, String nick) {
         String plain = stripColors(nick);
 
         if (!ALLOWED_NICK.matcher(plain).matches()) {
-            return "Nicknames must be alphanumeric.";
+            return "nick-invalid";
         }
         if (nick.length() > MAX_NICK_LENGTH) {
-            return "That nickname is too long.";
+            return "nick-too-long";
         }
         if (isNickInUse(target, plain)) {
-            return "That name is already in use.";
+            return "nick-in-use";
         }
         return null;
     }

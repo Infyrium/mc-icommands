@@ -21,6 +21,8 @@ import net.infyrium.icommands.commands.VanishCommand;
 import net.infyrium.icommands.listeners.GodModeListener;
 import net.infyrium.icommands.listeners.NickListener;
 import net.infyrium.icommands.listeners.VanishListener;
+import net.infyrium.icommands.managers.Messages;
+import net.infyrium.icommands.utils.ConfigUpdater;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
@@ -30,6 +32,8 @@ public class iCommandsMain extends JavaPlugin {
     // Online vanished players, safe to read from the async server list ping
     private final Set<UUID> vanishedOnline = ConcurrentHashMap.newKeySet();
 
+    private Messages messages;
+
     private NamespacedKey godModeKey;
 
     private NamespacedKey vanishKey;
@@ -38,7 +42,11 @@ public class iCommandsMain extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        ConfigUpdater.backupIfOutdated(this, "config.yml");
         saveDefaultConfig();
+
+        messages = new Messages(this);
+        messages.load();
 
         godModeKey = new NamespacedKey(this, "god");
         vanishKey = new NamespacedKey(this, "vanish");
@@ -81,6 +89,10 @@ public class iCommandsMain extends JavaPlugin {
         }
 
         getLogger().info("Plugin has been disabled!");
+    }
+
+    public Messages getMessages() {
+        return messages;
     }
 
     /**

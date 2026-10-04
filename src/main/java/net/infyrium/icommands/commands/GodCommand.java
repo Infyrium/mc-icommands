@@ -12,7 +12,7 @@ public class GodCommand extends TargetCommand {
     }
 
     @Override
-    protected Result execute(Player target) {
+    protected String execute(Player target) {
         boolean enabled = !plugin.isGodMode(target);
         plugin.setGodMode(target, enabled);
 
@@ -21,7 +21,6 @@ public class GodCommand extends TargetCommand {
             target.setFoodLevel(20);
         }
 
-        String state = enabled ? "enabled" : "disabled";
-        return new Result("God mode " + state + "!", "God mode " + state + " for " + target.getName() + "!");
+        return enabled ? "god-enabled" : "god-disabled";
     }
 }

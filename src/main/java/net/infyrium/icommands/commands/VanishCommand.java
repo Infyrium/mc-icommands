@@ -11,15 +11,10 @@ public class VanishCommand extends TargetCommand {
     }
 
     @Override
-    protected Result execute(Player target) {
+    protected String execute(Player target) {
         boolean enabled = !plugin.isVanished(target);
         plugin.setVanished(target, enabled);
 
-        String state = enabled ? "enabled" : "disabled";
-        String targetMessage = "Vanish " + state + "!";
-        if (enabled) {
-            targetMessage += " You are now invisible to other players.";
-        }
-        return new Result(targetMessage, "Vanish " + state + " for " + target.getName() + "!");
+        return enabled ? "vanish-enabled" : "vanish-disabled";
     }
 }

@@ -1,0 +1,65 @@
+# Messages use the MiniMessage format: https://docs.advntr.dev/minimessage/format.html
+# Colors and styles: <red>, <green>, <#ffaa00>, <bold>, <gradient:red:blue>text</gradient>
+# Placeholders like <player> are listed in the comment above the message.
+# To show a literal "<" put a backslash before it: \<player>
+# An empty message ('') is not sent.
+
+messages:
+  no-permission: "You don't have permission to use this command."
+  no-permission-others: "You don't have permission to use this command on other players."
+  # <player>
+  player-not-online: "Player '<player>' is not online."
+  # <command>
+  usage-player: 'Usage: /<command> \<player>'
+
+  # Messages ending with -other are sent to the one who used the command on another player: <player>
+
+  feed: "Your hunger has been restored!"
+  feed-other: "<player>'s hunger has been restored!"
+
+  heal: "You have been healed!"
+  heal-other: "<player> has been healed!"
+  heal-dead: "You can't be healed while dead."
+  heal-dead-other: "Cannot heal a dead player!"
+
+  ext: "You have been extinguished!"
+  ext-other: "<player> has been extinguished!"
+
+  fly-enabled: "Flight enabled!"
+  fly-enabled-other: "Flight enabled for <player>!"
+  fly-disabled: "Flight disabled!"
+  fly-disabled-other: "Flight disabled for <player>!"
+
+  god-enabled: "God mode enabled!"
+  god-enabled-other: "God mode enabled for <player>!"
+  god-disabled: "God mode disabled!"
+  god-disabled-other: "God mode disabled for <player>!"
+
+  vanish-enabled: "Vanish enabled! You are now invisible to other players."
+  vanish-enabled-other: "Vanish enabled for <player>!"
+  vanish-disabled: "Vanish disabled!"
+  vanish-disabled-other: "Vanish disabled for <player>!"
+  # Sent on join to a player who is still vanished
+  vanish-still: "You are still vanished."
+
+  # <command>
+  speed-usage: 'Usage: /<command> [fly|walk] \<0-10> [player]'
+  # <speed>
+  speed-fly: "Fly speed set to <speed>!"
+  speed-walk: "Walk speed set to <speed>!"
+  # <speed>, <player>
+  speed-fly-other: "Fly speed set to <speed> for <player>!"
+  speed-walk-other: "Walk speed set to <speed> for <player>!"
+
+  # <command>
+  nick-usage: 'Usage: /<command> [player] \<nickname|off>'
+  nick-usage-console: 'Usage: /<command> \<player> \<nickname|off>'
+  # <nick>
+  nick-set: "Your nickname is now <nick>."
+  nick-removed: "You no longer have a nickname."
+  nick-changed: "Nickname changed."
+  nick-invalid: "Nicknames must be alphanumeric."
+  nick-too-long: "That nickname is too long."
+  nick-in-use: "That name is already in use."
+
+configVersion: 1 # Format version of this file, do not change

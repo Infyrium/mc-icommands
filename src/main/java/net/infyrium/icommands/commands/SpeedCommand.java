@@ -9,6 +9,9 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import net.infyrium.icommands.iCommandsMain;
+import net.infyrium.icommands.managers.Messages;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
 public class SpeedCommand implements TabExecutor {
 
@@ -30,64 +33,65 @@ public class SpeedCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        String usage = "Usage: /" + label + " [fly|walk] <0-10> [player]";
+        Messages messages = plugin.getMessages();
+        TagResolver usage = Placeholder.unparsed("command", label);
 
         // /speed <speed> picks the type by whether the player is flying
         if (args.length == 1) {
             if (!(sender instanceof Player player)) {
-                sender.sendMessage(usage);
+                messages.send(sender, "speed-usage", usage);
                 return true;
             }
             if (!hasPermission(player)) return true;
 
             Float speed = parseSpeed(args[0]);
             if (speed == null) {
-                player.sendMessage(usage);
+                messages.send(player, "speed-usage", usage);
                 return true;
             }
             setSpeed(player, player.isFlying(), speed);
-            player.sendMessage(message(player.isFlying(), speed) + "!");
+            messages.send(player, key(player.isFlying()), speed(speed));
             return true;
         }
 
         if (args.length < 2 || args.length > 3) {
-            sender.sendMessage(usage);
+            messages.send(sender, "speed-usage", usage);
             return true;
         }
 
         Boolean fly = parseType(args[0]);
         Float speed = parseSpeed(args[1]);
         if (fly == null || speed == null) {
-            sender.sendMessage(usage);
+            messages.send(sender, "speed-usage", usage);
             return true;
         }
 
         if (args.length == 3) {
             if (!sender.hasPermission("icommands.speed.others")) {
-                sender.sendMessage("You don't have permission to use this command on other players.");
+                messages.send(sender, "no-permission-others");
                 return true;
             }
             Player target = Bukkit.getPlayerExact(args[2]);
             if (target == null || (sender instanceof Player player && !player.canSee(target))) {
-                sender.sendMessage("Player '" + args[2] + "' is not online.");
+                messages.send(sender, "player-not-online", Placeholder.unparsed("player", args[2]));
                 return true;
             }
             setSpeed(target, fly, speed);
-            target.sendMessage(message(fly, speed) + "!");
+            messages.send(target, key(fly), speed(speed));
             if (target != sender) {
-                sender.sendMessage(message(fly, speed) + " for " + target.getName() + "!");
+                messages.send(sender, key(fly) + "-other", speed(speed), Placeholder.unparsed("player", target.getName()));
             }
             return true;
         }
 
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(usage);
+            messages.send(sender, "speed-usage", usage);
             return true;
         }
         if (!hasPermission(player)) return true;
 
         setSpeed(player, fly, speed);
-        player.sendMessage(message(fly, speed) + "!");
+        messages.send(player, key(fly), speed(speed));
         return true;
     }
 
@@ -110,7 +114,7 @@ public class SpeedCommand implements TabExecutor {
     private boolean hasPermission(Player player) {
         if (plugin.getConfig().getBoolean("settings.requirePermission.speed", true)
                 && !player.hasPermission("icommands.speed")) {
-            player.sendMessage("You don't have permission to use this command.");
+            plugin.getMessages().send(player, "no-permission");
             return false;
         }
         return true;
@@ -152,9 +156,13 @@ public class SpeedCommand implements TabExecutor {
         }
     }
 
-    private static String message(boolean fly, float speed) {
+    private static String key(boolean fly) {
+        return fly ? "speed-fly" : "speed-walk";
+    }
+
+    private static TagResolver speed(float speed) {
         String value = speed == (int) speed ? String.valueOf((int) speed) : String.valueOf(speed);
-        return (fly ? "Fly" : "Walk") + " speed set to " + value;
+        return Placeholder.unparsed("speed", value);
     }
 
     private static List<String> filter(List<String> options, String input) {

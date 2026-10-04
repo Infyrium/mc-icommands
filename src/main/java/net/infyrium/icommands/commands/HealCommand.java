@@ -13,9 +13,9 @@ public class HealCommand extends TargetCommand {
     }
 
     @Override
-    protected Result execute(Player target) {
+    protected String execute(Player target) {
         if (target.isDead()) {
-            return new Result("You can't be healed while dead.", "Cannot heal a dead player!");
+            return "heal-dead";
         }
 
         target.setHealth(target.getAttribute(Attribute.MAX_HEALTH).getValue());
@@ -25,6 +25,6 @@ public class HealCommand extends TargetCommand {
         for (PotionEffect effect : target.getActivePotionEffects()) {
             target.removePotionEffect(effect.getType());
         }
-        return new Result("You have been healed!", target.getName() + " has been healed!");
+        return "heal";
     }
 }

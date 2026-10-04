@@ -8,3 +8,5 @@ settings:
     ext: true # Permissions: icommands.ext, icommands.ext.others
     vanish: true # Permissions: icommands.vanish, icommands.vanish.others, icommands.vanish.see, icommands.vanish.pvp, icommands.vanish.pickup
     nick: true # Permissions: icommands.nick, icommands.nick.others, icommands.nick.color
+
+configVersion: 1 # Format version of this file, do not change

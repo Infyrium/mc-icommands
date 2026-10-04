@@ -61,7 +61,7 @@ public class VanishListener implements Listener {
         if (plugin.isVanished(player)) {
             event.joinMessage(null);
             plugin.applyVanish(player);
-            player.sendMessage("You are still vanished.");
+            plugin.getMessages().send(player, "vanish-still");
         }
 
         if (player.hasPermission("icommands.vanish.see")) return;

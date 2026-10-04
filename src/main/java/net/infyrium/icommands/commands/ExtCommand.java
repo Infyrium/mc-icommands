@@ -11,8 +11,8 @@ public class ExtCommand extends TargetCommand {
     }
 
     @Override
-    protected Result execute(Player target) {
+    protected String execute(Player target) {
         target.setFireTicks(0);
-        return new Result("You have been extinguished!", target.getName() + " has been extinguished!");
+        return "ext";
     }
 }

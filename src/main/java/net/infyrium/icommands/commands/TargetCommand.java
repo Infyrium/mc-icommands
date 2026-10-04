@@ -7,6 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.infyrium.icommands.iCommandsMain;
+import net.infyrium.icommands.managers.Messages;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 
 /**
  * Base for commands used as /command or /command [player].
@@ -26,47 +28,44 @@ public abstract class TargetCommand implements CommandExecutor {
     }
 
     /**
-     * Messages after the command: one for the target, one for the sender if it is someone else.
+     * Applies the command to the target and returns the message key.
+     * The target gets the message with this key, a different sender gets the key with "-other".
      */
-    protected record Result(String targetMessage, String senderMessage) {}
-
-    /**
-     * Applies the command to the target and returns the messages to send.
-     */
-    protected abstract Result execute(Player target);
+    protected abstract String execute(Player target);
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        Messages messages = plugin.getMessages();
         Player target;
 
         if (args.length == 0) {
             if (!(sender instanceof Player player)) {
-                sender.sendMessage("Usage: /" + label + " <player>");
+                messages.send(sender, "usage-player", Placeholder.unparsed("command", label));
                 return true;
             }
             if (plugin.getConfig().getBoolean("settings.requirePermission." + name, true)
                     && !sender.hasPermission(permission)) {
-                sender.sendMessage("You don't have permission to use this command.");
+                messages.send(sender, "no-permission");
                 return true;
             }
             target = player;
         } else {
             if (!sender.hasPermission(permission + ".others")) {
-                sender.sendMessage("You don't have permission to use this command on other players.");
+                messages.send(sender, "no-permission-others");
                 return true;
             }
             target = Bukkit.getPlayerExact(args[0]);
             // Players hidden from the sender (e.g. vanished) look offline
             if (target == null || (sender instanceof Player player && !player.canSee(target))) {
-                sender.sendMessage("Player '" + args[0] + "' is not online.");
+                messages.send(sender, "player-not-online", Placeholder.unparsed("player", args[0]));
                 return true;
             }
         }
 
-        Result result = execute(target);
-        target.sendMessage(result.targetMessage());
+        String key = execute(target);
+        messages.send(target, key);
         if (target != sender) {
-            sender.sendMessage(result.senderMessage());
+            messages.send(sender, key + "-other", Placeholder.unparsed("player", target.getName()));
         }
         return true;
     }
